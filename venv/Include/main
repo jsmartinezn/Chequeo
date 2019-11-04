@@ -41,12 +41,13 @@ while(v):
     hora = time.strftime("%H:%M:%S")
     dia = time.strftime("%d/%m/%y")
     pr = probar(1)
-    print(pr)
     f = open('log.txt',aux)
     if(pr):
+        print(dia + " " + hora + " El servicio de actualizar inventario funciona")
         f.write(dia + " " + hora + " El servicio de actualizar inventario funciona"+'\n')
     else:
         f.write(dia + " " + hora + " El servicio de actualizar inventario no funciona" + '\n')
+        print(dia + " " + hora + " El servicio de actualizar no inventario funciona")
         v = False
     f.close()
     aux = 'a'
