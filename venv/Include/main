@@ -1,0 +1,53 @@
+import requests
+import time
+
+def get_inventario(num):
+    URL = "http://18.212.34.173:8080/producto/"
+    id = num
+    temp = str(id)
+    URL+=temp
+    r = requests.get(url=URL)
+    s = ""
+    i = 0
+    for chunk in r.iter_content(chunk_size=1):
+        if(chunk == b'.' or chunk == b'0' or chunk == b'1'or chunk == b'2' or chunk == b'3' or chunk == b'4'or chunk == b'5' or chunk == b'6' or chunk == b'7'or chunk == b'8' or chunk == b'9'):
+            i = i + 1
+            if(i>(3+len(temp))):
+                s += chunk.decode("utf-8")
+    inv = float(s)
+    return(inv)
+def probar(num):
+    actual = get_inventario(num)
+    URL = "http://18.212.34.173:8080/producto/inventarioMas/"
+    id = num
+    temp = str(id)
+    URL += temp
+    r = requests.get(url=URL)
+    mas = get_inventario(num)
+    URL = "http://18.212.34.173:8080/producto/inventarioMenos/"
+    id = num
+    temp = str(id)
+    URL += temp
+    r = requests.get(url=URL)
+    menos = get_inventario(num)
+    if(actual == menos and actual == mas-1):
+        return True
+    else:
+        return False
+
+v = True
+aux = "w"
+while(v):
+    hora = time.strftime("%H:%M:%S")
+    dia = time.strftime("%d/%m/%y")
+    pr = probar(1)
+    print(pr)
+    f = open('log.txt',aux)
+    if(pr):
+        f.write(dia + " " + hora + " El servicio de actualizar inventario funciona"+'\n')
+    else:
+        f.write(dia + " " + hora + " El servicio de actualizar inventario no funciona" + '\n')
+        v = False
+    f.close()
+    aux = 'a'
+    time.sleep(5)
