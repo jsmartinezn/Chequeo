@@ -51,4 +51,4 @@ while(v):
         v = False
     f.close()
     aux = 'a'
-    time.sleep(5)
+    time.sleep(60)
